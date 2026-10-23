@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>octocat/Hello-World · GitHub</title>
+  <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg" />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border: #30363d;
+      --border-muted: #21262d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --text-link: #2f81f7;
+      --green: #238636;
+      --green-hover: #2ea043;
+      --btn-bg: #21262d;
+      --btn-hover: #30363d;
+      --accent: #1f6feb;
+      --header-bg: #010409;
+      --counter-bg: #30363d;
+      --danger: #da3633;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    a { color: var(--text-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ========== HEADER ========== */
+    .header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 16px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .header-logo svg { width: 32px; height: 32px; fill: currentColor; }
+
+    .header-search {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+    .header-search input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 12px 5px 32px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    .header-search input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+    }
+    .header-search::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%238b949e'%3E%3Cpath d='M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z'/%3E%3C/svg%3E") no-repeat center;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .header-btn {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .header-btn:hover { background: var(--btn-hover); }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #238636, #1f6feb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    /* Dropdown menus */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(1,4,9,0.5);
+      z-index: 200;
+      padding: 8px 0;
+    }
+    .dropdown-menu.show { display: block; }
+    .dropdown-menu.left { right: auto; left: 0; }
+    .dropdown-item {
+      display: block;
+      width: 100%;
+      padding: 8px 16px;
+      color: var(--text);
+      background: none;
+      border: none;
+      text-align: left;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .dropdown-item:hover { background: var(--bg-tertiary); }
+    .dropdown-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+    .dropdown-header {
+      padding: 8px 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ========== REPO HEADER ========== */
+    .repo-header {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px 0;
+    }
+
+    .repo-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .repo-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .repo-title h1 {
+      font-size: 20px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .repo-title h1 a { color: var(--text-link); font-weight: 600; cursor: pointer; }
+    .repo-title h1 span { color: var(--text-muted); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 7px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 18px;
+      border: 1px solid var(--border);
+      border-radius: 2em;
+      color: var(--text-muted);
+    }
+
+    .repo-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--text);
+      cursor: pointer;
+      line-height: 20px;
+      white-space: nowrap;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn:hover {
+      background: var(--btn-hover);
+      border-color: #8b949e;
+    }
+    .btn svg { width: 16px; height: 16px; fill: currentColor; }
+    .btn-primary {
+      background: var(--green);
+      border-color: rgba(240, 246, 252, 0.1);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--green-hover); }
+    .btn.active {
+      background: rgba(46, 160, 67, 0.15);
+      border-color: rgba(46, 160, 67, 0.4);
+      color: #3fb950;
+    }
+    .btn .counter {
+      background: var(--counter-bg);
+      border-radius: 2em;
+      padding: 0 6px;
+      font-size: 12px;
+      margin-left: 2px;
+    }
+    .btn.active .counter {
+      background: rgba(46, 160, 67, 0.3);
+    }
+
+    /* Tabs */
+    .repo-tabs {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      margin-top: 8px;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      cursor: pointer;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+    }
+    .tab:hover {
+      color: var(--text);
+      border-bottom-color: var(--border);
+    }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: #f78166;
+    }
+    .tab svg { width: 16px; height: 16px; fill: currentColor; }
+    .tab .count {
+      background: var(--counter-bg);
+      border-radius: 2em;
+      padding: 0 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 1fr 296px;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .main { grid-template-columns: 1fr; padding: 16px; }
+      .sidebar { order: -1; }
+      .repo-header { padding: 16px 16px 0; }
+    }
+
+    .sidebar h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .sidebar p {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .sidebar .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .sidebar .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .sidebar .meta-item svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    .sidebar .meta-item a { color: var(--text); cursor: pointer; }
+    .sidebar .meta-item a:hover { color: var(--text-link); }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+    .topic {
+      background: rgba(56, 139, 253, 0.1);
+      color: var(--text-link);
+      border-radius: 2em;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 22px;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .topic:hover { background: rgba(56, 139, 253, 0.2); }
+
+    .sidebar-section {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      margin-top: 16px;
+    }
+
+    .release-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      font-size: 12px;
+    }
+    .release-item .tag {
+      background: rgba(46, 160, 67, 0.15);
+      color: #3fb950;
+      border: 1px solid rgba(46, 160, 67, 0.4);
+      border-radius: 2em;
+      padding: 0 7px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .avatar-stack { display: flex; }
+    .avatar-stack .avatar-sm {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      margin-left: -8px;
+      background: linear-gradient(135deg, #f78166, #1f6feb);
+    }
+    .avatar-stack .avatar-sm:first-child { margin-left: 0; }
+
+    /* Code section */
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .branch-select {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .branch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .branch-btn:hover { background: var(--btn-hover); }
+    .branch-btn svg { width: 12px; height: 12px; fill: currentColor; }
+
+    .go-to-file { flex: 1; max-width: 240px; }
+    .go-to-file input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 12px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+    .go-to-file input:focus { border-color: var(--accent); }
+
+    .file-browser {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .file-browser-header {
+      background: var(--bg-secondary);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .file-browser-header .commit-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .file-browser-header .commit-info a {
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .file-browser-header .commit-info a:hover { color: var(--text-link); }
+
+    .file-list { background: var(--bg); }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border-muted);
+      gap: 16px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .file-row:last-child { border-bottom: none; }
+    .file-row:hover { background: var(--bg-secondary); }
+
+    .file-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      min-width: 0;
+    }
+    .file-name a {
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .file-name a:hover { color: var(--text-link); text-decoration: underline; }
+    .file-name svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .file-name.folder svg { fill: #54aeff; }
+
+    .file-msg {
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 300px;
+      font-size: 12px;
+    }
+    .file-msg a { color: var(--text-muted); cursor: pointer; }
+    .file-msg a:hover { color: var(--text-link); }
+
+    .file-time {
+      color: var(--text-muted);
+      font-size: 12px;
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    /* README */
+    .readme {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .readme-header {
+      background: var(--bg-secondary);
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .readme-header svg { width: 16px; height: 16px; fill: var(--text-muted); }
+    .readme-body {
+      padding: 24px 32px;
+      background: var(--bg);
+    }
+    .readme-body h1 {
+      font-size: 24px;
+      font-weight: 600;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .readme-body h2 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .readme-body p { margin-bottom: 16px; color: var(--text); }
+    .readme-body ul { margin: 0 0 16px 24px; color: var(--text); }
+    .readme-body li { margin-bottom: 4px; }
+    .readme-body code {
+      background: rgba(110, 118, 129, 0.2);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+    .readme-body pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      overflow-x: auto;
+      margin-bottom: 16px;
+    }
+    .readme-body pre code {
+      background: none;
+      padding: 0;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .readme-body .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .readme-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #238636;
+      color: #fff;
+    }
+
+    /* Tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state h3 {
+      font-size: 20px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .empty-state p { margin-bottom: 16px; }
+
+    /* Issues list */
+    .issue-list { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .issue-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-muted);
+      cursor: pointer;
+    }
+    .issue-item:last-child { border-bottom: none; }
+    .issue-item:hover { background: var(--bg-secondary); }
+    .issue-icon { color: #3fb950; margin-top: 2px; }
+    .issue-icon.closed { color: #a371f7; }
+    .issue-title { font-weight: 600; color: var(--text); }
+    .issue-meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 20px;
+      color: var(--text);
+      font-size: 14px;
+      box-shadow: 0 8px 24px rgba(1,4,9,0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .toast.success { border-color: rgba(46, 160, 67, 0.4); }
+    .toast.error { border-color: rgba(218, 54, 51, 0.4); }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(1, 4, 9, 0.8);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 16px 48px rgba(1,4,9,0.6);
+    }
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h2 { font-size: 18px; font-weight: 600; }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-body { padding: 24px; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .form-group .hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+    }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .radio-option:hover { background: var(--bg-tertiary); }
+    .radio-option.selected {
+      border-color: var(--accent);
+      background: rgba(31, 111, 235, 0.1);
+    }
+    .radio-option input { margin-top: 3px; }
+    .radio-option .label { font-weight: 600; }
+    .radio-option .desc { font-size: 12px; color: var(--text-muted); }
+
+    /* New repo button in header */
+    .plus-btn {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .plus-btn:hover { background: var(--btn-hover); }
+
+    /* Repos list view */
+    .repos-view { display: none; }
+    .repos-view.active { display: block; }
+    .repo-view { display: none; }
+    .repo-view.active { display: block; }
+
+    .repos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .repo-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .repo-card:hover { border-color: #8b949e; }
+    .repo-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-link);
+      margin-bottom: 6px;
+    }
+    .repo-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .repo-card-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .repo-card-meta span { display: flex; align-items: center; gap: 4px; }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .page-header h1 { font-size: 24px; font-weight: 600; }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+      padding: 40px 32px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .footer a { color: var(--text-muted); margin: 0 8px; }
+    .footer a:hover { color: var(--text-link); }
+
+    @media (max-width: 600px) {
+      .header-search { display: none; }
+      .file-row { grid-template-columns: 1fr; gap: 4px; }
+      .file-msg, .file-time { padding-left: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <a class="header-logo" id="logoBtn" title="Go to repositories">
+      <svg viewBox="0 0 16 16" width="32" height="32">
+        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+      </svg>
+    </a>
+
+    <div class="header-search">
+      <input type="text" id="globalSearch" placeholder="Type / to search" />
+    </div>
+
+    <nav class="header-nav">
+      <div class="dropdown">
+        <button class="plus-btn" id="plusBtn" title="Create new">+</button>
+        <div class="dropdown-menu" id="plusMenu">
+          <button class="dropdown-item" id="newRepoBtn">New repository</button>
+          <button class="dropdown-item" id="importRepoBtn">Import repository</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="newGistBtn">New gist</button>
+        </div>
+      </div>
+
+      <button class="header-btn" id="pullRequestsBtn">Pull requests</button>
+      <button class="header-btn" id="issuesNavBtn">Issues</button>
+      <button class="header-btn" id="notifBtn" title="Notifications">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.04.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.516 1.516 0 0 1-1.263-2.36l1.704-2.554A.255.255 0 0 0 3 7.947Zm5-3.5a3.5 3.5 0 0 0-3.5 3.5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.017.017 0 0 0-.003.01l.001.006c0 .002.002.002.003.004a.021.021 0 0 0 .015.004h10.922a.021.021 0 0 0 .015-.004l.002-.004a.017.017 0 0 0-.003-.01l-1.703-2.554A1.745 1.745 0 0 1 11.5 8.447V5A3.5 3.5 0 0 0 8 1.5Z"/></svg>
+      </button>
+
+      <div class="dropdown">
+        <div class="avatar" id="avatarBtn">OC</div>
+        <div class="dropdown-menu" id="userMenu">
+          <div class="dropdown-header">Signed in as <strong>octocat</strong></div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="yourReposBtn">Your repositories</button>
+          <button class="dropdown-item" id="yourProfileBtn">Your profile</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" id="settingsBtn">Settings</button>
+          <button class="dropdown-item" id="signOutBtn">Sign out</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ========== REPOSITORIES LIST VIEW ========== -->
+  <div id="reposView" class="repos-view">
+    <div style="max-width:1280px;margin:0 auto;padding:24px 32px;">
+      <div class="page-header">
+        <h1>Repositories</h1>
+        <button class="btn btn-primary" id="newRepoFromListBtn">
+          <svg viewBox="0 0 16 16" width="16" height="16"><path fill="currentColor" d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+          New
+        </button>
+      </div>
+      <div class="repos-grid" id="reposGrid"></div>
+    </div>
+  </div>
+
+  <!-- ========== SINGLE REPO VIEW ========== -->
+  <div id="repoView" class="repo-view active">
+    <!-- Repo header -->
+    <div class="repo-header">
+      <div class="repo-title-row">
+        <div class="repo-title">
+          <h1>
+            <a id="ownerLink">octocat</a>
+            <span>/</span>
+            <a id="repoNameLink">Hello-World</a>
+          </h1>
+          <span class="badge" id="visibilityBadge">Public</span>
+        </div>
+        <div class="repo-actions">
+          <button class="btn" id="sponsorBtn">
+            <svg viewBox="0 0 16 16"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .674.197 1.306.52 1.855C6.292 8.194 7.25 9.5 8 10.555c.75-1.055 1.708-2.361 2.48-3.45.323-.549.52-1.181.52-1.855 0-2.06-1.637-3.75-4-3.75ZM5.5 5.25c0-1.336.978-2.25 2.5-2.25s2.5.914 2.5 2.25S8.022 7.5 6.5 7.5 5.5 6.586 5.5 5.25Z"/><path d="M8 13.125c.052 0 .103-.004.155-.012.78-.13 1.487-.514 2.076-1.067.59-.554 1.04-1.28 1.228-2.112a.75.75 0 1 1 1.456.364c-.26 1.14-.886 2.13-1.7 2.894-.81.76-1.82 1.3-2.96 1.49a.75.75 0 0 1-.25 0c-1.14-.19-2.15-.73-2.96-1.49-.814-.764-1.44-1.754-1.7-2.894a.75.75 0 0 1 1.456-.364c.188.832.638 1.558 1.228 2.112.589.553 1.296.937 2.076 1.067.052.008.103.012.155.012Z"/></svg>
+            Sponsor
+          </button>
+          <button class="btn" id="watchBtn">
+            <svg viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>
+            <span id="watchLabel">Watch</span>
+            <span class="counter" id="watchCount">3</span>
+          </button>
+          <button class="btn" id="forkBtn">
+            <svg viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .192.168.1.5.5h5c.28 0 .5-.22.5-.5v-.878A2.25 2.25 0 0 0 10.75 3h-5.5A2.25 2.25 0 0 0 5 5.372ZM3.5 5.5A3.75 3.75 0 0 1 7.25 1.75h1.5A3.75 3.75 0 0 1 12.5 5.5v.878c0 .192.168.1.5.5h.25a.75.75 0 0 1 0 1.5h-.25c-.28 0-.5.22-.5.5v.872A3.75 3.75 0 0 1 8.75 14.25h-1.5A3.75 3.75 0 0 1 3.5 10.75v-.872c0-.28-.22-.5-.5-.5h-.25a.75.75 0 0 1 0-1.5h.25c.28 0 .5-.22.5-.5V5.5Zm1.5 5.25A2.25 2.25 0 0 0 7.25 13h1.5a2.25 2.25 0 0 0 2.25-2.25v-.872c0-.28.22-.5.5-.5h.25a.25.25 0 0 0 0-.5h-.25c-.28 0-.5-.22-.5-.5V5.5A2.25 2.25 0 0 0 8.75 3.25h-1.5A2.25 2.25 0 0 0 5 5.5v.878c0 .192.168.1.5.5h.25a.25.25 0 0 0 0 .5h-.25c-.28 0-.5.22-.5.5v.872Z"/></svg>
+            Fork
+            <span class="counter" id="forkCount">2.1k</span>
+          </button>
+          <button class="btn" id="starBtn">
+            <svg viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Zm0 2.445L6.615 5.5a.75.75 0 0 1-.564.41l-3.097.45 2.24 2.184a.75.75 0 0 1 .216.664l-.528 3.084 2.769-1.456a.75.75 0 0 1 .698 0l2.77 1.456-.53-3.084a.75.75 0 0 1 .216-.664l2.24-2.183-3.096-.45a.75.75 0 0 1-.564-.41L8 2.694Z"/></svg>
+            <span id="starLabel">Star</span>
+            <span class="counter" id="starCount">1.8k</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="repo-tabs" id="repoTabs">
+        <button class="tab active" data-tab="code">
+          <svg viewBox="0 0 16 16"><path d="m1.5 2.75 7.5 4.5 7.5-4.5M1.5 2.75v10.5l7.5 4.5 7.5-4.5V2.75"/></svg>
+          Code
+        </button>
+        <button class="tab" data-tab="issues">
+          <svg viewBox="0 0 16 16"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M1.5 2.75A.75.75 0 0 1 2.25 2h11.5a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75Zm0 5A.75.75 0 0 1 2.25 7h11.5a.75.75 0 0 1 0 1.5H2.25A.75.75 0 0 1 1.5 7.75Zm0 5a.75.75 0 0 1 .75-.75h11.5a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75Z"/></svg>
+          Issues
+          <span class="count" id="issuesCount">12</span>
+        </button>
+        <button class="tab" data-tab="pulls">
+          <svg viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>
+          Pull requests
+          <span class="count">3</span>
+        </button>
+        <button class="tab" data-tab="actions">
+          <svg viewBox="0 0 16 16"><path d="M1.75 1h8.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 10.25 15h-8.5A1.75 1.75 0 0 1 0 13.25V2.75C0 1.784.784 1 1.75 1ZM1.5 2.75v10.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25h-8.5a.25.25 0 0 0-.25.25ZM11.5 3h2.75c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 15H11.5v-1.5h2.75a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25H11.5V3Z"/></svg>
+          Actions
+        </button>
+        <button class="tab" data-tab="projects">
+          <svg viewBox="0 0 16 16"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v12.5A1.75 1.75 0 0 1 14.25 16H1.75A1.75 1.75 0 0 1 0 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .192.168.1.5.25h12.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm7.25 3.75a.75.75 0 0 1 1.5 0v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5Z"/></svg>
+          Projects
+        </button>
+        <button class="tab" data-tab="wiki">
+          <svg viewBox="0 0 16 16"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .192.168.1.5.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM3.5 5.75a.75.75 0 0 1 .75-.75h7a.75.75 0 0 1 0 1.5h-7a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5Z"/></svg>
+          Wiki
+        </button>
+        <button class="tab" data-tab="security">
+          <svg viewBox="0 0 16 16"><path d="M8.75.75V2h.985c.304 0 .603.08.867.231l1.29.736c.038.022.08.033.124.033h2.234a.75.75 0 0 1 0 1.5h-.427l2.111 5.633a2.25 2.25 0 0 1-.053.938l.383.219a.75.75 0 1 1-.75 1.3l-.385-.22a2.25 2.25 0 0 1-1.17.546l-.084.01H7.269a2.25 2.25 0 0 1-1.254-.556L5.63 11.9a.75.75 0 1 1-.75-1.3l.383-.219a2.25 2.25 0 0 1-.053-.938L7.32 3.764H6.894a.75.75 0 0 1 0-1.5h2.233a.25.25 0 0 0 .124-.033l1.29-.736A.25.25 0 0 0 10.735 2H9.5V.75a.75.75 0 0 1 1.5 0ZM7.5 10.5h1v1h-1v-1Zm2 0h1v1h-1v-1Zm-3.5-1.5h1v1h-1v-1Zm5 0h1v1h-1v-1Z"/></svg>
+          Security
+        </button>
+        <button class="tab" data-tab="insights">
+          <svg viewBox="0 0 16 16"><path d="M1.5 1.75V13.5h13.75a.75.75 0 0 1 0 1.5H.75a.75.75 0 0 1-.75-.75V1.75a.75.75 0 0 1 1.5 0Zm14.28 2.53-5.25 5.25a.75.75 0 0 1-1.06 0L7 7.06 4.28 9.78a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042l3.25-3.25a.75.75 0 0 1 1.06 0L10 7.94l4.72-4.72a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Z"/></svg>
+          Insights
+        </button>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="content">
+        <!-- CODE TAB -->
+        <div class="tab-panel active" id="panel-code">
+          <div class="code-header">
+            <div class="branch-select">
+              <div class="dropdown">
+                <button class="branch-btn" id="branchBtn">
+                  <svg viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="M9.5 3.25a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-1.5 0a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/><path fill="currentColor" d="M5.75 6.5a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5ZM5 9.75A.75.75 0 0 1 5.75 9h4.5a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 5 9.75ZM5.75 12a.75.75 0 0 0 0 1.5h4.5a.75.75 0 0 0 0-1.5h-4.5Z"/><path fill="currentColor" d="M1.5 2.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H2.25v9.5h1.5a.75.75 0 0 1 0 1.5H2.25a.75.75 0 0 1-.75-.75V2.75Z"/></svg>
+                  <span id="currentBranch">main</span>
+                  <svg viewBox="0 0 16 16" width="12" height="12"><path fill="currentColor" d="m4.427 7.427 3.396 3.396a.25.25 0 0 0 .354 0l3.396-3.396A.25.25 0 0 0 11.396 7H4.604a.25.25 0 0 0-.177.427Z"/></svg>
+                </button>
+                <div class="dropdown-menu left" id="branchMenu">
+                  <div class="dropdown-header">Switch branches</div>
+                  <button class="dropdown-item" data-branch="main">main</button>
+                  <button class="dropdown-item" data-branch="develop">develop</button>
+                  <button class="dropdown-item" data-branch="feature/ui">feature/ui</button>
+                </div>
+              </div>
+              <span style="color:var(--text-muted);font-size:12px;" id="branchInfo">3 Branches · 12 Tags</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div class="go-to-file">
+                <input type="text" id="goToFile" placeholder="Go to file" />
+              </div>
+              <div class="dropdown">
+                <button class="btn" id="addFileBtn">Add file</button>
+                <div class="dropdown-menu" id="addFileMenu">
+                  <button class="dropdown-item" id="createFileBtn">Create new file</button>
+                  <button class="dropdown-item" id="uploadFileBtn">Upload files</button>
+                </div>
+              </div>
+              <div class="dropdown">
+                <button class="btn btn-primary" id="codeBtn">
+                  <svg viewBox="0 0 16 16"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .192.168.1.5.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.75.75 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.25 2.25c.10.10.0.1.22.53Zm1.5 1.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75Z"/></svg>
+                  Code
+                </button>
+                <div class="dropdown-menu" id="codeMenu">
+                  <div class="dropdown-header">Clone</div>
+                  <button class="dropdown-item" id="cloneHttps">HTTPS: https://github.com/octocat/Hello-World.git</button>
+                  <button class="dropdown-item" id="cloneSsh">SSH: git@github.com:octocat/Hello-World.git</button>
+                  <div class="dropdown-divider"></div>
+                  <button class="dropdown-item" id="downloadZip">Download ZIP</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="file-browser">
+            <div class="file-browser-header">
+              <div class="commit-info">
+                <div class="avatar" style="width:20px;height:20px;font-size:10px;">OC</div>
+                <a>octocat</a>
+                <span style="color:var(--text)" id="lastCommitMsg">Initial commit</span>
+              </div>
+              <div>
+                <a style="color:var(--text-muted);font-family:ui-monospace,monospace;" id="lastCommitHash">a1b2c3d</a>
+                · <span id="lastCommitTime">2 days ago</span>
+              </div>
+            </div>
+            <div class="file-list" id="fileList"></div>
+          </div>
+
+          <div class="readme" id="readmeSection">
+            <div class="readme-header">
+              <svg viewBox="0 0 16 16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.10.10.0.1.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .192.168.1.5.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .192.168.1.5.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>
+              README.md
+            </div>
+            <div class="readme-body" id="readmeBody"></div>
+          </div>
+        </div>
+
+        <!-- ISSUES TAB -->
+        <div class="tab-panel" id="panel-issues">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h2 style="font-size:18px;">Issues</h2>
+            <button class="btn btn-primary" id="newIssueBtn">New issue</button>
+          </div>
+          <div class="issue-list" id="issueList"></div>
+        </div>
+
+        <!-- PULLS TAB -->
+        <div class="tab-panel" id="panel-pulls">
+          <div class="empty-state">
+            <h3>Pull requests</h3>
+            <p>There aren't any open pull requests.</p>
+            <button class="btn btn-primary" id="newPrBtn">New pull request</button>
+          </div>
+        </div>
+
+        <!-- ACTIONS TAB -->
+        <div class="tab-panel" id="panel-actions">
+          <div class="empty-state">
+            <h3>Actions</h3>
+            <p>Automate your workflow from idea to production.</p>
+            <button class="btn" id="newWorkflowBtn">New workflow</button>
+          </div>
+        </div>
+
+        <!-- PROJECTS TAB -->
+        <div class="tab-panel" id="panel-projects">
+          <div class="empty-state">
+            <h3>Projects</h3>
+            <p>Organize and prioritize your work with projects.</p>
+            <button class="btn btn-primary" id="newProjectBtn">New project</button>
+          </div>
+        </div>
+
+        <!-- WIKI TAB -->
+        <div class="tab-panel" id="panel-wiki">
+          <div class="empty-state">
+            <h3>Wiki</h3>
+            <p>Welcome to the wiki! Create the first page.</p>
+            <button class="btn btn-primary" id="createWikiBtn">Create the first page</button>
+          </div>
+        </div>
+
+        <!-- SECURITY TAB -->
+        <div class="tab-panel" id="panel-security">
+          <div class="empty-state">
+            <h3>Security</h3>
+            <p>No security alerts for this repository.</p>
+            <button class="btn" id="securityPolicyBtn">Add a security policy</button>
+          </div>
+        </div>
+
+        <!-- INSIGHTS TAB -->
+        <div class="tab-panel" id="panel-insights">
+          <div class="empty-state">
+            <h3>Insights</h3>
+            <p>Get insights into traffic, commits, and more.</p>
+            <button class="btn" id="viewInsightsBtn">View pulse</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <h2>About</h2>
+        <p id="repoDescription">No description, website, or topics provided.</p>
+        <div class="meta">
+          <div class="meta-item">
+            <svg viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+            <a id="sidebarStars"><strong>1.8k</strong> stars</a>
+          </div>
+          <div class="meta-item">
+            <svg viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .192.168.1.5.5h5c.28 0 .5-.22.5-.5v-.878A2.25 2.25 0 0 0 10.75 3h-5.5A2.25 2.25 0 0 0 5 5.372ZM3.5 5.5A3.75 3.75 0 0 1 7.25 1.75h1.5A3.75 3.75 0 0 1 12.5 5.5v.878c0 .192.168.1.5.5h.25a.75.75 0 0 1 0 1.5h-.25c-.28 0-.5.22-.5.5v.872A3.75 3.75 0 0 1 8.75 14.25h-1.5A3.75 3.75 0 0 1 3.5 10.75v-.872c0-.28-.22-.5-.5-.5h-.25a.75.75 0 0 1 0-1.5h.25c.28 0 .5-.22.5-.5V5.5Zm1.5 5.25A2.25 2.25 0 0 0 7.25 13h1.5a2.25 2.25 0 0 0 2.25-2.25v-.872c0-.28.22-.5.5-.5h.25a.25.25 0 0 0 0-.5h-.25c-.28 0-.5-.22-.5-.5V5.5A2.25 2.25 0 0 0 8.75 3.25h-1.5A2.25 2.25 0 0 0 5 5.5v.878c0 .192.168.1.5.5h.25a.25.25 0 0 0 0 .5h-.25c-.28 0-.5.22-.5.5v.872Z"/></svg>
+            <a id="sidebarForks"><strong>2.1k</strong> forks</a>
+          </div>
+          <div class="meta-item">
+            <svg viewBox="0 0 16 16"><path d="M1.5 3.25a2.25 2.25 0 1 1 3 2.122v5.256a2.251 2.251 0 1 1-1.5 0V5.372A2.25 2.25 0 0 1 1.5 3.25Zm5.677-.177L9.573.677A.25.25 0 0 1 10 .854V2.5h1A2.5 2.5 0 0 1 13.5 5v5.628a2.251 2.251 0 1 1-1.5 0V5a1 1 0 0 0-1-1h-1v1.646a.25.25 0 0 1-.427.177L7.177 3.427a.25.25 0 0 1 0-.354ZM3.75 2.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm0 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5Zm8.25.75a.75.75 0 1 0 1.5 0 .75.75 0 0 0-1.5 0Z"/></svg>
+            <a id="sidebarWatch"><strong>3</strong> watching</a>
+          </div>
+        </div>
+        <div class="topics" id="topicsList"></div>
+        <div class="sidebar-section">
+          <h2>Releases</h2>
+          <div class="release-item">
+            <span class="tag">v1.0.0</span>
+            <span style="color:var(--text-muted)">Latest · 2 days ago</span>
+          </div>
+          <a href="#" style="font-size:12px;margin-top:8px;display:inline-block;" id="allReleases">+ 2 releases</a>
+        </div>
+        <div class="sidebar-section">
+          <h2>Packages</h2>
+          <p style="font-size:12px;color:var(--text-muted);">No packages published</p>
+        </div>
+        <div class="sidebar-section">
+          <h2>Contributors</h2>
+          <div class="avatar-stack">
+            <div class="avatar-sm" title="octocat"></div>
+            <div class="avatar-sm" style="background:linear-gradient(135deg,#238636,#f78166)" title="contributor"></div>
+            <div class="avatar-sm" style="background:linear-gradient(135deg,#1f6feb,#8250df)" title="contributor"></div>
+          </div>
+          <a href="#" style="font-size:12px;margin-top:8px;display:inline-block;" id="allContributors">+ 5 contributors</a>
+        </div>
+        <div class="sidebar-section">
+          <h2>Languages</h2>
+          <div style="height:8px;border-radius:4px;overflow:hidden;display:flex;margin-bottom:8px;">
+            <div style="width:68%;background:#f1e05a;"></div>
+            <div style="width:22%;background:#563d7c;"></div>
+            <div style="width:10%;background:#e34c26;"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--text-muted);">
+            <span><span style="color:#f1e05a;">●</span> JavaScript 68%</span>
+            <span><span style="color:#563d7c;">●</span> CSS 22%</span>
+            <span><span style="color:#e34c26;">●</span> HTML 10%</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Security</a>
+      <a href="#">Status</a>
+      <a href="#">Docs</a>
+      <a href="#">Contact</a>
+      <a href="#">Pricing</a>
+      <a href="#">API</a>
+      <a href="#">Blog</a>
+      <a href="#">About</a>
+    </div>
+    <p style="margin-top:16px;">© 2026 GitHub Clone · Interactive UI demo</p>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- New Repository Modal -->
+  <div class="modal-overlay" id="newRepoModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Create a new repository</h2>
+        <button class="modal-close" id="closeNewRepo">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Owner *</label>
+          <select id="repoOwner">
+            <option value="octocat">octocat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Repository name *</label>
+          <input type="text" id="repoNameInput" placeholder="my-awesome-repo" required />
+          <div class="hint">Great repository names are short and memorable.</div>
+        </div>
+        <div class="form-group">
+          <label>Description <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
+          <input type="text" id="repoDescInput" placeholder="A short description of your repository" />
+        </div>
+        <div class="form-group">
+          <label>Visibility</label>
+          <div class="radio-group">
+            <label class="radio-option selected" data-vis="public">
+              <input type="radio" name="visibility" value="public" checked />
+              <div>
+                <div class="label">Public</div>
+                <div class="desc">Anyone on the internet can see this repository. You choose who can commit.</div>
+              </div>
+            </label>
+            <label class="radio-option" data-vis="private">
+              <input type="radio" name="visibility" value="private" />
+              <div>
+                <div class="label">Private</div>
+                <div class="desc">You choose who can see and commit to this repository.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label style="display:flex;align-items:center;gap:8px;font-weight:400;">
+            <input type="checkbox" id="addReadme" checked />
+            Add a README file
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="cancelNewRepo">Cancel</button>
+        <button class="btn btn-primary" id="createRepoBtn">Create repository</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Issue Modal -->
+  <div class="modal-overlay" id="newIssueModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>New issue</h2>
+        <button class="modal-close" id="closeNewIssue">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Title</label>
+          <input type="text" id="issueTitle" placeholder="Title" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="issueBody" placeholder="Leave a comment"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="cancelNewIssue">Cancel</button>
+        <button class="btn btn-primary" id="submitIssueBtn">Submit new issue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ========== STATE ==========
+    let repos = [
+      {
+        id: 1,
+        owner: 'octocat',
+        name: 'Hello-World',
+        description: 'This is a classic Hello World repository — the place where every developer starts.',
+        visibility: 'Public',
+        stars: 1800,
+        forks: 2100,
+        watchers: 3,
+        starred: false,
+        watching: false,
+        forked: false,
+        topics: ['javascript', 'hello-world', 'beginner', 'tutorial'],
+        files: [
+          { name: 'src', type: 'folder', msg: 'Add source files', time: '2 days ago' },
+          { name: 'docs', type: 'folder', msg: 'Update documentation', time: '3 days ago' },
+          { name: '.gitignore', type: 'file', msg: 'Ignore node_modules and build', time: '5 days ago' },
+          { name: 'LICENSE', type: 'file', msg: 'Add MIT license', time: '1 week ago' },
+          { name: 'README.md', type: 'file', msg: 'Initial commit', time: '2 days ago' },
+          { name: 'package.json', type: 'file', msg: 'Bump version to 1.0.0', time: '4 days ago' }
+        ],
+        issues: [
+          { id: 12, title: 'Add dark mode support', open: true, author: 'octocat', time: '2 days ago' },
+          { id: 11, title: 'Fix responsive layout on mobile', open: true, author: 'contributor', time: '3 days ago' },
+          { id: 10, title: 'Update dependencies', open: true, author: 'octocat', time: '5 days ago' },
+          { id: 9, title: 'Typo in README', open: false, author: 'user123', time: '1 week ago' }
+        ]
+      }
+    ];
+
+    let currentRepoId = 1;
+    let currentTab = 'code';
+
+    // ========== HELPERS ==========
+    function $(id) { return document.getElementById(id); }
+    function showToast(msg, type = 'success') {
+      const t = $('toast');
+      t.textContent = msg;
+      t.className = 'toast show ' + type;
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+    function formatCount(n) {
+      if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return String(n);
+    }
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+    }
+
+    // ========== RENDER ==========
+    function getCurrentRepo() {
+      return repos.find(r => r.id === currentRepoId);
+    }
+
+    function renderRepo() {
+      const repo = getCurrentRepo();
+      if (!repo) return;
+
+      document.title = `${repo.owner}/${repo.name} · GitHub`;
+      $('ownerLink').textContent = repo.owner;
+      $('repoNameLink').textContent = repo.name;
+      $('visibilityBadge').textContent = repo.visibility;
+      $('repoDescription').textContent = repo.description || 'No description, website, or topics provided.';
+
+      // Stars / Fork / Watch
+      $('starCount').textContent = formatCount(repo.stars);
+      $('forkCount').textContent = formatCount(repo.forks);
+      $('watchCount').textContent = formatCount(repo.watchers);
+      $('sidebarStars').innerHTML = `<strong>${formatCount(repo.stars)}</strong> stars`;
+      $('sidebarForks').innerHTML = `<strong>${formatCount(repo.forks)}</strong> forks`;
+      $('sidebarWatch').innerHTML = `<strong>${formatCount(repo.watchers)}</strong> watching`;
+
+      $('starBtn').classList.toggle('active', repo.starred);
+      $('starLabel').textContent = repo.starred ? 'Starred' : 'Star';
+      $('watchBtn').classList.toggle('active', repo.watching);
+      $('watchLabel').textContent = repo.watching ? 'Unwatch' : 'Watch';
+      $('forkBtn').classList.toggle('active', repo.forked);
+
+      // Topics
+      $('topicsList').innerHTML = (repo.topics || []).map(t =>
+        `<a class="topic" href="#">${t}</a>`
+      ).join('');
+
+      // Files
+      const folderSvg = `<svg viewBox="0 0 16 16"><path d="M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z"/></svg>`;
+      const fileSvg = `<svg viewBox="0 0 16 16"><path d="M2 1.75C2 .784 2.784 0 3.75 0h6.586c.464 0 .909.184 1.237.513l2.914 2.914c.10.10.0.1.513 1.237v9.586A1.75 1.75 0 0 1 13.25 16h-9.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .192.168.1.5.25h9.5a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 9 4.25V1.5Zm6.75.062V4.25c0 .192.168.1.5.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg>`;
+
+      $('fileList').innerHTML = (repo.files || []).map(f => `
+        <div class="file-row" data-file="${f.name}">
+          <div class="file-name ${f.type === 'folder' ? 'folder' : ''}">
+            ${f.type === 'folder' ? folderSvg : fileSvg}
+            <a>${f.name}</a>
+          </div>
+          <div class="file-msg"><a>${f.msg}</a></div>
+          <div class="file-time">${f.time}</div>
+        </div>
+      `).join('');
+
+      // README
+      $('readmeBody').innerHTML = `
+        <h1>${repo.name}</h1>
+        <div class="badge-row">
+          <span class="readme-badge">MIT License</span>
+          <span class="readme-badge" style="background:#1f6feb;">JavaScript</span>
+          <span class="readme-badge" style="background:#8250df;">Stars ${formatCount(repo.stars)}</span>
+        </div>
+        <p>${repo.description || 'A new repository created on this GitHub clone.'}</p>
+        <h2>Getting started</h2>
+        <p>Clone the repository:</p>
+        <pre><code>git clone https://github.com/${repo.owner}/${repo.name}.git
+cd ${repo.name}</code></pre>
+        <h2>License</h2>
+        <p>Released under the <code>MIT</code> License.</p>
+      `;
+
+      // Issues
+      const openIssues = (repo.issues || []).filter(i => i.open);
+      $('issuesCount').textContent = openIssues.length;
+      $('issueList').innerHTML = (repo.issues || []).map(i => `
+        <div class="issue-item">
+          <div class="issue-icon ${i.open ? '' : 'closed'}">
+            ${i.open
+              ? '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z"/></svg>'
+              : '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.28 6.78a.75.75 0 0 0-1.06-1.06L7.25 8.69 5.78 7.22a.75.75 0 0 0-1.06 1.06l2 2a.75.75 0 0 0 1.06 0l3.5-3.5Z"/><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0Zm-1.5 0a6.5 6.5 0 1 0-13 0 6.5 6.5 0 0 0 13 0Z"/></svg>'
+            }
+          </div>
+          <div>
+            <div class="issue-title">${i.title}</div>
+            <div class="issue-meta">#${i.id} ${i.open ? 'opened' : 'closed'} by ${i.author} · ${i.time}</div>
+          </div>
+        </div>
+      `).join('') || '<div class="empty-state"><p>No issues yet.</p></div>';
+
+      // Clone URLs
+      $('cloneHttps').textContent = `HTTPS: https://github.com/${repo.owner}/${repo.name}.git`;
+      $('cloneSsh').textContent = `SSH: git@github.com:${repo.owner}/${repo.name}.git`;
+    }
+
+    function renderReposList() {
+      $('reposGrid').innerHTML = repos.map(r => `
+        <div class="repo-card" data-id="${r.id}">
+          <h3>${r.owner}/${r.name}</h3>
+          <p>${r.description || 'No description'}</p>
+          <div class="repo-card-meta">
+            <span>⭐ ${formatCount(r.stars)}</span>
+            <span>🍴 ${formatCount(r.forks)}</span>
+            <span>${r.visibility}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showReposView() {
+      $('reposView').classList.add('active');
+      $('repoView').classList.remove('active');
+      renderReposList();
+      closeAllDropdowns();
+    }
+
+    function showRepoView(id) {
+      currentRepoId = id;
+      currentTab = 'code';
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === 'code'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      $('panel-code').classList.add('active');
+      $('reposView').classList.remove('active');
+      $('repoView').classList.add('active');
+      renderRepo();
+      closeAllDropdowns();
+    }
+
+    // ========== EVENT LISTENERS ==========
+    document.addEventListener('click', (e) => {
+      // Close dropdowns when clicking outside
+      if (!e.target.closest('.dropdown')) closeAllDropdowns();
+    });
+
+    // Logo → repos list
+    $('logoBtn').addEventListener('click', () => showReposView());
+
+    // Plus menu
+    $('plusBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      $('plusMenu').classList.toggle('show');
+    });
+    $('newRepoBtn').addEventListener('click', () => {
+      closeAllDropdowns();
+      $('newRepoModal').classList.add('show');
+      $('repoNameInput').value = '';
+      $('repoDescInput').value = '';
+      $('repoNameInput').focus();
+    });
+    $('newRepoFromListBtn').addEventListener('click', () => {
+      $('newRepoModal').classList.add('show');
+      $('repoNameInput').value = '';
+      $('repoDescInput').value = '';
+      $('repoNameInput').focus();
+    });
+    $('importRepoBtn').addEventListener('click', () => {
+      closeAllDropdowns();
+      showToast('Import repository — coming soon!');
+    });
+    $('newGistBtn').addEventListener('click', () => {
+      closeAllDropdowns();
+      showToast('New gist — coming soon!');
+    });
+
+    // User menu
+    $('avatarBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      $('userMenu').classList.toggle('show');
+    });
+    $('yourReposBtn').addEventListener('click', () => showReposView());
+    $('yourProfileBtn').addEventListener('click', () => { closeAllDropdowns(); showToast('Profile page — demo only'); });
+    $('settingsBtn').addEventListener('click', () => { closeAllDropdowns(); showToast('Settings — demo only'); });
+    $('signOutBtn').addEventListener('click', () => { closeAllDropdowns(); showToast('Signed out (demo)'); });
+
+    // Header nav
+    $('pullRequestsBtn').addEventListener('click', () => {
+      if ($('repoView').classList.contains('active')) {
+        document.querySelector('.tab[data-tab="pulls"]').click();
+      } else {
+        showToast('Open a repository first');
+      }
+    });
+    $('issuesNavBtn').addEventListener('click', () => {
+      if ($('repoView').classList.contains('active')) {
+        document.querySelector('.tab[data-tab="issues"]').click();
+      } else {
+        showToast('Open a repository first');
+      }
+    });
+    $('notifBtn').addEventListener('click', () => showToast('No new notifications'));
+
+    // Star / Watch / Fork / Sponsor
+    $('starBtn').addEventListener('click', () => {
+      const repo = getCurrentRepo();
+      repo.starred = !repo.starred;
+      repo.stars += repo.starred ? 1 : -1;
+      renderRepo();
+      showToast(repo.starred ? '⭐ Starred!' : 'Removed star');
+    });
+    $('watchBtn').addEventListener('click', () => {
+      const repo = getCurrentRepo();
+      repo.watching = !repo.watching;
+      repo.watchers += repo.watching ? 1 : -1;
+      renderRepo();
+      showToast(repo.watching ? '🔔 Watching' : 'Stopped watching');
+    });
+    $('forkBtn').addEventListener('click', () => {
+      const repo = getCurrentRepo();
+      if (!repo.forked) {
+        repo.forked = true;
+        repo.forks += 1;
+        // Also create a forked copy
+        const fork = {
+          ...JSON.parse(JSON.stringify(repo)),
+          id: Date.now(),
+          name: repo.name,
+          owner: 'octocat',
+          description: `Forked from ${repo.owner}/${repo.name}`,
+          stars: 0,
+          forks: 0,
+          watchers: 1,
+          starred: false,
+          watching: true,
+          forked: false
+        };
+        repos.unshift(fork);
+        renderRepo();
+        showToast('🍴 Repository forked!');
+      } else {
+        showToast('Already forked');
+      }
+    });
+    $('sponsorBtn').addEventListener('click', () => showToast('💖 Thanks for sponsoring! (demo)'));
+
+    // Tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        currentTab = tab.dataset.tab;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        $(`panel-${currentTab}`).classList.add('active');
+      });
+    });
+
+    // Branch
+    $('branchBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      $('branchMenu').classList.toggle('show');
+    });
+    document.querySelectorAll('#branchMenu .dropdown-item').forEach(item => {
+      item.addEventListener('click', () => {
+        $('currentBranch').textContent = item.dataset.branch;
+        closeAllDropdowns();
+        showToast(`Switched to branch: ${item.dataset.branch}`);
+      });
+    });
+
+    // Add file / Code menus
+    $('addFileBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      $('addFileMenu').classList.toggle('show');
+    });
+    $('createFileBtn').addEventListener('click', () => {
+      closeAllDropdowns();
+      showToast('Create new file — demo only');
+    });
+    $('uploadFileBtn').addEventListener('click', () => {
+      closeAllDropdowns();
+      showToast('Upload files — demo only');
+    });
+    $('codeBtn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAllDropdowns();
+      $('codeMenu').classList.toggle('show');
+    });
+    $('cloneHttps').addEventListener('click', () => {
+      const repo = getCurrentRepo();
+      navigator.clipboard.writeText(`https://github.com/${repo.owner}/${repo.name}.git`).then(() => {
+        showToast('📋 HTTPS URL copied!');
+      }).catch(() => showToast('📋 HTTPS URL ready to copy'));
+      closeAllDropdowns();
+    });
+    $('cloneSsh').addEventListener('click', () => {
+      const repo = getCurrentRepo();
+      navigator.clipboard.writeText(`git@github.com:${repo.owner}/${repo.name}.git`).then(() => {
+        showToast('📋 SSH URL copied!');
+      }).catch(() => showToast('📋 SSH URL ready to copy'));
+      closeAllDropdowns();
+    });
+    $('downloadZip').addEventListener('click', () => {
+      closeAllDropdowns();
+      showToast('⬇️ Download ZIP started (demo)');
+    });
+
+    // File rows
+    document.addEventListener('click', (e) => {
+      const row = e.target.closest('.file-row');
+      if (row) {
+        showToast(`Opening: ${row.dataset.file}`);
+      }
+      const card = e.target.closest('.repo-card');
+      if (card) {
+        showRepoView(Number(card.dataset.id));
+      }
+    });
+
+    // New Issue
+    $('newIssueBtn').addEventListener('click', () => {
+      $('newIssueModal').classList.add('show');
+      $('issueTitle').value = '';
+      $('issueBody').value = '';
+      $('issueTitle').focus();
+    });
+    $('closeNewIssue').addEventListener('click', () => $('newIssueModal').classList.remove('show'));
+    $('cancelNewIssue').addEventListener('click', () => $('newIssueModal').classList.remove('show'));
+    $('submitIssueBtn').addEventListener('click', () => {
+      const title = $('issueTitle').value.trim();
+      if (!title) {
+        showToast('Please enter a title', 'error');
+        return;
+      }
+      const repo = getCurrentRepo();
+      const newId = Math.max(0, ...(repo.issues || []).map(i => i.id)) + 1;
+      repo.issues = repo.issues || [];
+      repo.issues.unshift({
+        id: newId,
+        title,
+        open: true,
+        author: 'octocat',
+        time: 'just now'
+      });
+      $('newIssueModal').classList.remove('show');
+      renderRepo();
+      showToast('✅ Issue created!');
+    });
+
+    // Other tab buttons
+    $('newPrBtn').addEventListener('click', () => showToast('Create pull request — demo'));
+    $('newWorkflowBtn').addEventListener('click', () => showToast('New workflow — demo'));
+    $('newProjectBtn').addEventListener('click', () => showToast('New project — demo'));
+    $('createWikiBtn').addEventListener('click', () => showToast('Wiki page created — demo'));
+    $('securityPolicyBtn').addEventListener('click', () => showToast('Security policy — demo'));
+    $('viewInsightsBtn').addEventListener('click', () => showToast('Insights loaded — demo'));
+    $('allReleases').addEventListener('click', (e) => { e.preventDefault(); showToast('All releases'); });
+    $('allContributors').addEventListener('click', (e) => { e.preventDefault(); showToast('All contributors'); });
+
+    // New Repository Modal
+    $('closeNewRepo').addEventListener('click', () => $('newRepoModal').classList.remove('show'));
+    $('cancelNewRepo').addEventListener('click', () => $('newRepoModal').classList.remove('show'));
+
+    // Visibility radio
+    document.querySelectorAll('.radio-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        opt.querySelector('input').checked = true;
+      });
+    });
+
+    $('createRepoBtn').addEventListener('click', () => {
+      const name = $('repoNameInput').value.trim();
+      if (!name) {
+        showToast('Repository name is required', 'error');
+        $('repoNameInput').focus();
+        return;
+      }
+      if (!/^[a-zA-Z0-9._-]+$/.test(name)) {
+        showToast('Invalid name. Use letters, numbers, -, _, .', 'error');
+        return;
+      }
+      if (repos.some(r => r.name.toLowerCase() === name.toLowerCase())) {
+        showToast('Repository already exists', 'error');
+        return;
+      }
+
+      const visibility = document.querySelector('input[name="visibility"]:checked').value;
+      const desc = $('repoDescInput').value.trim();
+      const addReadme = $('addReadme').checked;
+
+      const newRepo = {
+        id: Date.now(),
+        owner: 'octocat',
+        name,
+        description: desc || (addReadme ? `My new repository: ${name}` : ''),
+        visibility: visibility === 'public' ? 'Public' : 'Private',
+        stars: 0,
+        forks: 0,
+        watchers: 1,
+        starred: false,
+        watching: true,
+        forked: false,
+        topics: [],
+        files: addReadme
+          ? [
+              { name: 'README.md', type: 'file', msg: 'Initial commit', time: 'just now' }
+            ]
+          : [],
+        issues: []
+      };
+
+      repos.unshift(newRepo);
+      $('newRepoModal').classList.remove('show');
+      showRepoView(newRepo.id);
+      showToast(`✅ Repository "${name}" created!`);
+    });
+
+    // Search
+    $('globalSearch').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        showToast(`Search: "${e.target.value}"`);
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        $('globalSearch').focus();
+      }
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+        $('newRepoModal').classList.remove('show');
+        $('newIssueModal').classList.remove('show');
+      }
+    });
+
+    // Init
+    renderRepo();
+  </script>
+</body>
+</html>
